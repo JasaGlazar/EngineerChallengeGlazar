@@ -9,7 +9,7 @@ namespace EngineerChallengeGlazar
     internal class APIFootballResponse : ApiResponse
     {
         public readonly string Service_Provider = "API-Football";
-        public APIFootballResponse(string data, DateTime fetchedAt, bool isSuccess, string? errorMessage, int numberKPI) : base(data, fetchedAt, isSuccess, errorMessage, numberKPI)
+        public APIFootballResponse(DateTime fetchedAt, bool isSuccess, string? errorMessage, int numberKPI) : base(fetchedAt, isSuccess, errorMessage, numberKPI)
         {
         }
     }

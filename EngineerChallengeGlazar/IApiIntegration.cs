@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Databox.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace EngineerChallengeGlazar
 {
-    internal interface IApiIntegration
+    public interface IApiIntegration
     {
         public Task<string> GetData();
-        //public ApiMetrics GetMetrics();
+        public Task<ApiMetrics> GetMetrics();
+        public Task<List<PushData>> CreatePushData();
 
     }
 }
