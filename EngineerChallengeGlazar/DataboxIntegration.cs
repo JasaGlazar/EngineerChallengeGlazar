@@ -12,24 +12,26 @@ namespace EngineerChallengeGlazar
     internal class DataboxIntegration
     {
         private HttpClient _httpClient;
+        private Configuration _config;
         public string APIToken { get; set; }
 
-        public DataboxIntegration(HttpClient httpClient, string aPIToken)
+        public DataboxIntegration(string aPIToken)
         {
-            _httpClient = httpClient;
+            _httpClient = new HttpClient();
             APIToken = aPIToken;
+
+            _config = new Configuration();
+            _config.BasePath = "https://push.databox.com";
+            _config.Username = APIToken;
+            _config.DefaultHeaders.Add("Accept", "application/vnd.databox.v2+json");
+
         }
 
         public async Task SendMetrics(IApiIntegration apiIntegration)
         {
-            Configuration config = new Configuration();
-            config.BasePath = "https://push.databox.com";
-            config.Username = APIToken;
-            config.DefaultHeaders.Add("Accept", "application/vnd.databox.v2+json");
-
             HttpClientHandler handler = new HttpClientHandler();
 
-            var apiInstance = new DefaultApi(_httpClient, config, handler);
+            var apiInstance = new DefaultApi(_httpClient, _config, handler);
             var dataPostRequest = apiIntegration.CreatePushData();
 
             try
@@ -42,6 +44,8 @@ namespace EngineerChallengeGlazar
                 Console.WriteLine("Exception when calling DefaultApi.DataPostWithHttpInfo: " + ex.Message);
                 Console.WriteLine("Status Code: " + ex.ErrorCode);
                 Console.WriteLine(ex.StackTrace);
+                Console.WriteLine(ex.Source);
+                Console.WriteLine(ex.ErrorContent);
             }
         }
     }

@@ -25,9 +25,9 @@ namespace EngineerChallengeGlazar
         public string LeagueId { get; set; }
         public string Season { get; set; }
 
-        public APIFootballIntegration(HttpClient httpClient, string playerId, string leagueId, string season)
+        public APIFootballIntegration(string playerId, string leagueId, string season)
         {
-            _httpClient = httpClient;
+            _httpClient = new HttpClient();
             PlayerId = playerId;
             LeagueId = leagueId;
             Season = season;
@@ -142,7 +142,7 @@ namespace EngineerChallengeGlazar
                 new PushData()
                 {
                     Key = "Appearences",
-                    Value= PlayerMetrics.Appearences,
+                    Value = PlayerMetrics.Appearences,
                     Date = Date
                 },
                 new PushData()
