@@ -19,7 +19,7 @@ namespace TestProject1
         {
             return new APIFootballIntegration("522", "78", "2020")
             {
-                _httpClient = _httpClient // Assign the mocked HttpClient
+                _httpClient = _httpClient
             };
         }
 
