@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EngineerChallengeGlazar
 {
-    class APIGithubMetrics : ApiMetrics
+    public class APIGithubMetrics : ApiMetrics
     {
         public int Open_Issues { get; set; }
         public int Watchers { get; set; }

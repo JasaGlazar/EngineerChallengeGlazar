@@ -11,8 +11,11 @@ using System.Threading.Tasks;
 
 namespace EngineerChallengeGlazar
 {
-    internal class APIGitHubIntegration : IApiIntegration
+    public class APIGitHubIntegration : IApiIntegration
     {
+        private readonly string serviceProvider = "GitHub API";
+        public string ServiceProvider { get { return serviceProvider; } }
+
         private static readonly string ClientId = "Ov23liKdLzVJARntR9Yc";
         private static readonly string ClientSecret = "5881050ef5e19c874690710869b9d4992a15a62e";
 
@@ -21,9 +24,9 @@ namespace EngineerChallengeGlazar
         private static readonly string AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
         private static readonly string TokenEndpoint = "https://github.com/login/oauth/access_token";
 
-        private HttpClient _httpClient;
-        private string RepositoryOwner { get; set; }
-        private string RepositoryName { get; set; }
+        public HttpClient _httpClient;
+        public string RepositoryOwner { get; set; }
+        public string RepositoryName { get; set; }
 
         public APIGitHubIntegration(string repositoryOwner, string repositoryName)
         {
@@ -41,19 +44,20 @@ namespace EngineerChallengeGlazar
                 new PushData()
                 {
                     Key = "Open_Issues",
-                    Value = GitHubMetrics.Open_Issues,
+                    Value = Convert.ToInt32(GitHubMetrics.Open_Issues),
                     Date = DateTime.Now.ToString("o")
                 },
                 new PushData()
                 {
                     Key = "Watchers",
-                    Value = GitHubMetrics.Watchers,
+                    Value = Convert.ToInt32(GitHubMetrics.Watchers),
                     Date = DateTime.Now.ToString("o")
+
                 },
                 new PushData()
                 {
                     Key = "Stargazers",
-                    Value = GitHubMetrics.Stargazers,
+                    Value = Convert.ToInt32(GitHubMetrics.Stargazers),
                     Date = DateTime.Now.ToString("o")
                 }
             };
@@ -75,13 +79,13 @@ namespace EngineerChallengeGlazar
                 var json = await response.Content.ReadAsStringAsync();
                 var repoData = JObject.Parse(json);
 
-                int OpenIssues = (int)repoData["open_issues"];
+                int OpenIssues = (int)repoData["open_issues_count"];
                 int Watchers = (int)repoData["watchers_count"];
                 int Stargazers = (int)repoData["stargazers_count"];
 
                 var metrics = new
                 {
-                    OpenIssues = OpenIssues,
+                    Open_Issues = OpenIssues,
                     Watchers = Watchers,
                     Stargazers = Stargazers,
                 };
@@ -120,7 +124,7 @@ namespace EngineerChallengeGlazar
 
             Console.WriteLine("Open the following URL in your browser and authorize the application:");
             Console.WriteLine(AuthorizationUrl);
-            Console.WriteLine("Enter the code from the URL after authorization (Example-http://localhost/?code=92093f073697260719fd):");
+            Console.WriteLine("Enter the code from the URL after authorization and redirection (Example-http://localhost/?code=920xxxxxxxxxxxxxxxxx):");
 
             string AuthorizationCode = Console.ReadLine();
 
@@ -155,7 +159,6 @@ namespace EngineerChallengeGlazar
 
             if (!string.IsNullOrEmpty(accessToken))
             {
-                Console.WriteLine(accessToken);
                 return accessToken;
             }
             else

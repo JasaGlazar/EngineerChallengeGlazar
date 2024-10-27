@@ -9,6 +9,7 @@ namespace EngineerChallengeGlazar
 {
     public interface IApiIntegration
     {
+        string ServiceProvider { get; }
         public Task<string> GetData();
         public Task<ApiMetrics> GetMetrics();
         public Task<List<PushData>> CreatePushData();

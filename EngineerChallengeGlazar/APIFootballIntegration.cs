@@ -13,11 +13,12 @@ using Databox.Model;
 
 namespace EngineerChallengeGlazar
 {
-    internal class APIFootballIntegration : IApiIntegration
+    public class APIFootballIntegration : IApiIntegration
     {
-        public APIFootballResponse APIFootballResponse { get; set; }
+        private readonly string serviceProvider = "API-Sports";
+        public string ServiceProvider { get { return serviceProvider; } }
 
-        private HttpClient _httpClient;
+        public HttpClient _httpClient;
         private readonly string apiUrl = "https://v3.football.api-sports.io/players";
         private readonly string apiKey = "548a580a913d6ff1d434bfd16128a28b";
 
